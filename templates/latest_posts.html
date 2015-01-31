@@ -1,0 +1,13 @@
+{% load i18n %}
+
+<div class="news">
+    <h3>
+        <a href="{{ url }}">{{ title }}</a>
+    </h3>
+    {% for obj in objs %}
+         <div class="news-item {% cycle 'news1' 'news2' %}">
+            <p class="date">{{ obj.date_and_time }}</p>
+            <a href="{% if url_item %}{% url url_item obj.pk %}{% endif %}"><p class="text_news">{{ obj.title }}</p></a>
+        </div>
+    {% endfor %}
+</div>

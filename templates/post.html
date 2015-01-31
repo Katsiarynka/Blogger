@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load i18n admin_tools_menu_tags %}
+
+
+{% block head %}
+	{{ block.super }}
+	<script type="text/javascript" src="{{ MEDIA_URL }}js/home.js"></script>
+{% endblock %}
+
+{% block page %}
+
+
+    <article>
+        <h3>{{ title }} </h3>
+    </article>
+
+    {% block posts %}
+        {% if post.type == 1 %}
+            <h3 class="useful_information">{{ post.title }}</h3>
+			 <div class="news-item">
+				<p class="date">{{ post.date }}</p>
+             	<div class="news_text">
+                    {{ post.text|safe }}
+             	</div>
+			</div>
+        {% elif post.type == 2 %}
+             <h3 class="useful_information">{{ post.title }}</h3>
+			 <div class="news-item">
+				<p class="date">{{ post.date }}</p>
+             	<img class="title_information_img" src="{{ MEDIA_URL }}{{ post.picture }}" alt="">
+                <p class="date">{{ post.description }}</p>
+			</div>
+        {% endif %}
+    <p>Comment wall:</p>
+	<div id="messages">
+	{% for message in messages %}
+		<div id="message_id_{{ message.id }}" style="margin-left:{{ message.level }}%">
+		{{ message.id }}
+			<i align="left" style="font-size: 18px; font-weight: 100; margin-left:2%;">{{ message.text }}</i>
+			<i id="{{ message.id }}_note" ><a style="margin-left:30%">{{ message.date_and_time }}</a>
+				<div  style="margin-left:50%; font-size: 14px; font-weight: 100;">
+				<a id="showChilds_{{ message.id }}" {% if message.id in trees or  message.id in childs %} style="visibility:hidden" {% endif %} href="#" onclick="show_childs_or_tree('childs', {{ message.id }});">Show comments of message</a><br>
+				<a id="showTree_{{ message.id }}" href="#" {% if message.id in trees %} style="visibility:hidden" {% endif %} onclick="show_childs_or_tree('trees',{{ message.id }});">Show whole discussion of this message</a><br>
+				<a id="replyTo_{{ message.id }}" href="#message_id_{{ message.id }}" onclick="replyTo({{ message.id }});return false;">Reply</a><br>
+				</div>
+			</i>
+			<br>
+		</div>
+	{% endfor %}
+	</div>
+	<div id="div_for_form">
+	<form id="id_write_review_to_message_form"  method="post" action="{% url 'write_review' post.id %}">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" id="submit" value="Добавить">
+		<input type="button" id="cancel" value="Отменить">
+	</form>
+	</div>
+    {% endblock %}
+
+<javascript>
+
+</javascript>
+{% endblock %}

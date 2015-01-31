@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load i18n admin_tools_menu_tags %}
+
+{% block page %}
+
+
+    <article>
+        <h3>{{ title }} </h3>
+    </article>
+
+    {% block posts %}
+        {% for post in posts %}
+            {% if post.type == 1 %}
+                <h3 class="useful_information"><a href="{% url "blog" post.id %}">{{ post.title }}</a></h3>
+                 <div class="news-item">
+                    <p class="date">{{ post.date }}</p>
+                    <div class="news_text">
+                        {{ post.text|safe }}
+                    </div>
+                </div>
+            {% elif post.type == 2 %}
+                 <h3 class="useful_information"><a href="{% url "picture" post.id %}">{{ post.title }}</a></h3>
+                 <div class="news-item">
+                    <p class="date">{{ post.date }}</p>
+                    <img class="title_information_img" src="{{ MEDIA_URL }}{{ post.picture }}" alt="">
+                    <p class="date">{{ post.description }}</p>
+                </div>
+            {% else %}
+                 <h3 class="useful_information">{{ post.title }}</h3>
+                 <div class="news-item">
+                    <p class="date">{{ post.date }}</p>
+                 </div>
+            {% endif %}
+        {% endfor %}
+    {% endblock %}
+
+
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load i18n admin_tools_menu_tags %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/jquery.bxslider.css">
+    <script src="{{ MEDIA_URL }}js/jquery.bxslider.min.js"></script>
+{% endblock %}
+
+{% block page %}
+    {% if slides %}
+        <ul id="slider" class="slider">
+        {% for slide in slides %}
+            <li><img src="{{ slide.picture.url }}" title="{{ slide.title }}"/></li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <article>
+        <h3>{% trans '"MY BLOGGER!"' %} </h3>
+        <h4>{% trans 'Posts by users' %} </h4>
+    </article>
+
+    {% block posts %}
+        <li><h3>{% trans 'Blogs' %} </h3></li>
+        {% for blog in blogs %}
+                <div class="news-item {% cycle 'news1' 'news2' %}">
+				<p class="date">{{ blog.date_and_time }}</p>
+                {% if blog.title  %}
+                    <div class="news_title">{{ blog.title|upper}}</div>
+                {% endif %}
+
+                    <div class="text_news">
+                        <a href="{% url "blog" blog.id %}">
+                            {{ blog.text|safe|striptags|truncatechars:400 }}
+                        </a>
+                    </div>
+            </div>
+        {% endfor %}
+
+        <ul class="pictures">
+            <li><h3>{% trans 'Pictures' %} </h3></li>
+            <li>
+            {% for pic in pictures %}
+            <a href="{% url 'picture' pic.id %}"><img class="title_information_img" style="max-width:100%; max-height:200px; margin: 6px;" src="{{ MEDIA_URL }}{{ pic.picture }}" alt="{{ pic.title }}"></a>
+            {% endfor %}
+            </li>
+        </ul>
+    {% endblock %}
+
+    <div class="our_partners">
+        <h3>{% trans "Our partners" %}</h3>
+        <ul class="partner_slide">
+            {% for partner in partners %}
+                <li>
+                    <p>{{ partner.company_name }}</p>
+                    <a href="{{ partner.url }}" target="_blank"><img style="max-height: 50px;" src="{{ partner.logotype.url }}"
+                         alt="{{ partner.company_name }}"></a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+
+{% block extrajs %}
+    <script>
+    $(document).ready(function(){
+        $('.slider').bxSlider({
+            mode: 'fade'
+        });
+            $('#slider').css("max-height",450);
+            $('#slider').parent().css("max-height",450);
+            $('#slider').css("height",$('#slider li img:visible').height());
+            $('#slider').parent().css("height",$('#slider li img:visible').height());
+            $('#slider').parent().parent().find('.bx-pager.bx-default-pager').css({bottom:"30px"});
+        $('.partner_slide').bxSlider({
+            minSlides: 3,
+            maxSlides: 3,
+            slideWidth: 200,
+            slideMargin: 30,
+            width: 700,
+            autoControls: false,
+            infiniteLoop: false,
+            hideControlOnEnd: true
+        });
+
+        $('.slider li img').click(function(){
+            window.location.href = {% url "get_slide_images" %};
+        });
+    });
+    </script>
+
+{% endblock %}

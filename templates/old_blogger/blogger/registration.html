@@ -1,0 +1,41 @@
+{% extends 'base_public.html' %}
+{% block content %}
+
+<p class="breadcrumbs"><a href="/">Главная</a>→Регистрация</p>
+
+<h1 class="title">Регистрация</h1>
+{{ block.super }}
+
+
+
+    <form class="reglog" id="reglog" name="registration_form" method="post" onKeyDown="javascript:if(13==event.keyCode){func_reglog();}">
+         {% if top_errors %}
+          <div class="error">
+          {{ top_errors|safe }}
+          </div>
+        {% endif %}
+        
+        {% if form.non_field_errors %}
+          <div class="error">
+          {{ form.non_field_errors }}
+          </div>
+        {% endif %}
+	
+        {{form.media}}
+		{% for field in form %}
+		{{ field.label }}
+		
+		{{ field }}
+		{% endfor %}
+		
+        <div class="form-submit">
+            <div class="margin-left:80%">
+                <input type="button" class="submit" id="button_reglog" value="Регистрация" class="bt_register" onclick="func_reglog()" />
+            </div>
+        </div>
+    </form>
+    
+</div>
+
+{% endblock %}
+

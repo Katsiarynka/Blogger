@@ -1,0 +1,38 @@
+{% extends 'base_public.html' %}
+
+{% block content %}
+{{ block.super }}
+
+<div class="pad">
+	<p>
+		{% for blog in blogs %}
+		<p>
+			<i style="color:green">{{ blog.user }} : {{ blog.datetime }}</i><br>
+			<big>{{ blog.title }}</big><br>
+			<a><i style="color:blue">{{ blog.blog }}</i><a><br>
+		</p>
+		{% endfor %}
+	</p>
+	
+	{% if form %}
+	<p>
+		<form method = "POST">
+		{{ form.as_p }}
+		<input type="submit" value="Сохранить">
+		<form>
+	</p>
+	{% endif %}
+	
+</div>
+{% endblock %}                                     
+     
+
+
+
+
+
+
+
+
+
+

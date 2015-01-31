@@ -1,0 +1,38 @@
+{% load i18n %}
+{% load active_url %}
+<header>
+    <div class="cntr">
+        <div class="top">
+            <p class="pull_left slogan">{% trans "I want" %}<br />{% trans "to write it!" %}</p>
+            <div class="cls"></div>
+        </div>
+        <div class="social">
+            <div class="languages pull_left">
+                <form name="setLangRussian" action="/i18n/setlang/" method="POST">{% csrf_token %}
+                    <input name="next" type="hidden" value="/"/>
+                    <input type="hidden" name="language" value="ru"/>
+                </form>
+                <form name="setLangEnglish" action="/i18n/setlang/" method="POST">{% csrf_token %}
+                    <input name="next" type="hidden" value="/"/>
+                    <input type="hidden" name="language" value="en"/>
+                </form>
+                <a href="#" class="{% if language == 'ru' %}active_language{% else %}language{% endif %}"
+                   onclick="document.setLangRussian.submit();return false;">Ru</a>
+                <a href="#" class="{% if language == 'en' %}active_language{% else %}language{% endif %}"
+                   onclick="document.setLangEnglish.submit();return false;">En</a>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li class="main {% is_active_url "home" %}"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+                <li class="pictures {% is_active_url "pictures" %}"><a href="{% url 'pictures' %}">{% trans "Pictures" %}</a></li>
+                <li class="profile {% is_active_url "user_profile" user.id %}"><a href="{% url 'user_profile' user.id %}">{% trans "Profile" %}</a></li>
+                <li class="notes {% is_active_url "user_notes" user.id %}"><a href="{% url "user_notes" user.id %}">{% trans "Notes" %}</a></li>
+                <li class="add_block {% is_active_url "new_blog" %}"><a href="{% url "new_blog" %}">{% trans "New blog" %}</a></li>
+                <li class="add_pic {% is_active_url "new_pic" %}"><a href="{% url "new_pic" %}">{% trans "New Pic" %}</a></li>
+                <li class="blogs {% is_active_url "blogs" %}"><a href="{% url "blogs" %}">{% trans "Blogs" %}</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="cls"></div>
+</header>

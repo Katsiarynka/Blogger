@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="ru" class="nojs">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>{% block meta_title %}{% if meta_title %}{{ meta_title }} |{% endif %}{% endblock %} Blogger</title>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.7.2.min.js"></script>
+    <link rel="SHORTCUT ICON" href="{{ MEDIA_URL }}images/logo4.png" type="image/x-icon">
+    <link rel="apple-touch-icon-precomposed" href="{{ MEDIA_URL }}images/apple-touch-icon-precomposed.png"> 
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/style_public.css">
+{% block extrahead %}{% endblock %}
+
+</head>
+
+<body>
+  <style>
+      body {
+          background: #F0F0F0;
+          text-align: left;
+      }
+  </style>
+	<div class="header-wrap"><div class="header-inner">
+		<header class="header">
+		</header>
+		<br><br>
+		</ul>
+
+
+	</div></div><!--header-->
+<div class="page">
+    <div class="page-inner">
+        <div class="section">
+            <div class="cols">
+            {% block left_menu %}
+        	{% endblock %}
+            
+            <div class="cols-section"><div class="cols-section-i">
+			
+            {% block content %}
+			<div style="position: relative; top: 200px">
+                 {% block notifications %}
+                    {% if request.notifications %}
+                        {% for message in request.notifications %}
+                            <div class="status status-{{ message.tags }}">
+                                <div class="status-i">
+                                    <p>{{ message }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                 {% endblock %}
+			</div>
+            {% endblock %}
+            </div></div><!--cols-section-->
+            
+            {% block rigth_menu %}
+            {% endblock %}
+            
+            </div><!--cols-->
+        </div><!--section-->
+    </div>
+</div><!--page-->
+        
+       
+    {% block account_change %}
+    {% endblock %}
+    </body>
+</html>

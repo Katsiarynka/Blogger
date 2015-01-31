@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+{% load i18n admin_tools_menu_tags %}
+{% load active_url %}
+{% load helper_show %}
+
+<html>
+<head lang="{{ LANGUAGE_CODE|default:'en-us' }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+
+    <title>{%  trans "My Blogger" %}{% if meta_title %}: {{ meta_title }}{% endif %}{% block title  %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/sfs.css">
+    <script src="{{ MEDIA_URL }}js/jquery-2.1.0.min.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ MEDIA_URL }}css/images/logo.png"/>
+
+    {% block head %}{% endblock %}
+</head>
+<body>
+<div class="body">
+{% include 'header.html' %}
+<div class="container">
+    <div class="sb">
+        {% block blogs %}
+            {% show 'blogs' 5 %}
+            {% show 'user_blogs' 5 user.id %}
+            {% show 'user_notes' 5 user.id %}
+{#            {% show 'mynews' 5 user.id %}#}
+        {% endblock %}
+        {% block gallery %}
+            <a href="{% url 'pictures' %}">
+            <div class="galery">
+                <span>{% trans "Gallery" %}</span>
+                <img src="{{ MEDIA_URL }}css/images/photo.png" alt="" class="photo">
+                <img src="{{ MEDIA_URL }}css/images/video.png" alt="" class="video">
+                <div class="cls"></div>
+            </div>
+            </a>
+        {% endblock %}
+        <div class="peoples">
+            <h3>
+                <a href="{% url 'peoples' %}">{% trans "Peoples" %}</a>
+            </h3>
+        </div>
+
+    </div>
+    <div class="cntr">
+        {% for message in notifications_messages %}
+            <p class="notification_error"> {{ message }}</p>
+        {% endfor %}
+        {% block page %}{% endblock %}
+    </div>
+</div>
+<div class="cls"></div>
+<footer>
+    <div class="contacts pull_left">
+        <p>{% trans "RB, Minsk, 220000" %}</p>
+        <p>{% trans "Numb." %}: +375 29 <span>294-99-22</span></p>
+    </div>
+    <div class="pull_right">
+        <div class="bottom_nav">
+            <ul>
+                <li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+                <li><a href="{% url 'pictures' %}">{% trans "Pictures" %}</a></li>
+                <li><a href="{% url 'user_profile' user.id %}">{% trans "Profile" %}</a></li>
+                <li><a href="{% url 'user_notes' user.id %}">{% trans "Notes" %}</a></li>
+            </ul>
+        </div>
+        <div>
+            <p class="copyright">© 2010-2014</p>
+
+            <p class="zod4ie">
+                {% trans "Site is developed by Borykova Katsiaryna" %}
+            </p>
+        </div>
+    </div>
+
+    <div class="cls"></div>
+</footer>
+
+{% block extrajs %}{% endblock %}
+</div>
+</body>
+</html>

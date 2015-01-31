@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block left_menu %}
+	<div class="cols-side"><div class="cols-side-i">
+		<div class="navside">
+			<ul>
+				{% if user.get_username %}
+                    <li class="nav-drop">
+                        <a href=""><span>Мои блоги</span></a>
+                        <ul>
+                           <li><a href="/my_public_blogs/">Публичные блоги</a></li>
+                           <li><a href="/my_private_blogs/">Личные блоги</a></li>
+                           <li><a href="/my_all_blogs/">Все блоги</a></li>
+                        </ul>
+                    </li>
+				{% endif %}
+				<li class="nav-drop">
+					<a href=""><span>Блоги всех пользователей</span></a>
+					<ul>
+						<li><a href="/all_popular_blogs/">Популярные блоги</a></li>
+						<li><a href="/all_latest_blogs/">Последние блоги</a></li>
+					</ul>
+				</li>
+				<li><a href="/create_new_blog/"><span>Создать новый блог</span></a></li>
+				{% if user.get_username %}
+					<li><a href="/my_personal_data/"><span>Мои данные</span></a></li>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+{% endblock %}
+
+{% block rigth_menu %}
+			<div class="cols-extra"><div class="cols-extra-i">
+					{% if user.get_username %}
+					<div class="user user-logged"><i class="icon"></i>
+						<span class="username">{% trans 'Welcome,' %}
+                        <strong>{% filter force_escape %}{% firstof user.get_short_name user.get_username %}{% endfilter %}</strong>.
+                        </span>
+						<span class="logout"><a href="/logout/">Выйти</a></span>
+					</div>
+					{% else %}
+                        <div class="user"><i class="icon"></i>
+                            <a href="/inner">Вход</a>
+                            <span>|</span>
+                            <a href="/registration">Регистрация</a>
+                        </div>
+				    {% endif %}
+				<div class="contacts-side">
+					<h4>Администрация сайта:</h4>
+
+                    <ul>
+						<a>Екатерина</a>
+						<li class="tel"><i class="ico"></i>
+							<a href="tel:+375292949922" class="link-tel">+375 (29) 294 99 22</a> <small></small>
+						</li>
+						<li class="skype"><i class="ico"></i><a href="skype:b.katrinka">b.katrinka</a></li>
+					</ul>
+				</div>
+			</div></div><!--cols-extra-->
+
+{% endblock %}
