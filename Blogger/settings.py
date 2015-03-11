@@ -12,8 +12,8 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'blogger',  # Or path to database file if using sqlite3.
+        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'blogger.sql',  # Or path to database file if using sqlite3.
         'USER': 'postgres',
         'PASSWORD': '',
         'HOST': '',  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
@@ -85,10 +85,13 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'modeltranslation',
     'django.contrib.admin',
     'tinymce',
+    'djcelery',
     'apps',
     'apps.comments',
     'apps.posts',
@@ -98,8 +101,14 @@ INSTALLED_APPS = (
     'apps.notes',
     'apps.partners',
     'south',
+    "djcelery",
+    'djkombu'
 )
 
+import djcelery
+djcelery.setup_loader()
+CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
+BROKER_BACKEND = "djkombu.transport.DatabaseTransport"
 
 LOGGING = {
     'version': 1,
@@ -144,3 +153,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 ADMIN_TOOLS_MENU = 'menu.CustomMenu'
 ADMIN_TOOLS_INDEX_DASHBOARD = 'dashboard.CustomIndexDashboard'
 ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'dashboard.CustomAppIndexDashboard'
+
+import djcelery
+djcelery.setup_loader()

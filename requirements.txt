@@ -1,5 +1,9 @@
 django==1.5.4
-django_admin_tools==0.5.2
-django_staticfiles==1.2.1
-psycopg2
+django_admin_tools
+django_staticfiles
 south
+django-modeltranslation
+django-fluent-dashboard
+django-celery
+django-kombu
+celery
